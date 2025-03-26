@@ -1,4 +1,4 @@
-package m.adrien.exomindtest.ui.theme
+package m.adrien.exomindtest.view.ui.theme
 
 import android.app.Activity
 import android.os.Build

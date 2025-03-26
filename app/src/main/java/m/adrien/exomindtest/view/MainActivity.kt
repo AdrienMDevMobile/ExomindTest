@@ -1,4 +1,4 @@
-package m.adrien.exomindtest
+package m.adrien.exomindtest.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import m.adrien.exomindtest.ui.theme.ExomindTestTheme
+import m.adrien.exomindtest.view.ui.theme.ExomindTestTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
