@@ -4,13 +4,19 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherJsonResponse(
-    val id: Int
+    val name: String,
+    val main: WeatherJsonTemperature,
+    val weather : List<WeatherJsonWeather>
 )
 
-/*
+
 @Serializable
-data class WeatherJsonMain(
+data class WeatherJsonTemperature(
     val temp: Float,
-    @SerialName("feels_like")
-    val feelsLike: Float,
-)*/
+)
+
+//pas ouf le nom...
+@Serializable
+data class WeatherJsonWeather(
+    val main: String,
+)
