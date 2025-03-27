@@ -21,8 +21,8 @@ class WeatherViewModel : ViewModel() {
         viewModelScope.launch {
             //marsUiState = MarsUiState.Loading
             //try {
-                val result = weatherDataManager.getWeather(WeatherLocation.PARIS)
-            Log.d("micheldr ", "viewmodel got result")
+            val result = weatherDataManager.getWeather(WeatherLocation.PARIS)
+            Log.d("micheldr ", "viewmodel got result" + result.weather.size + " " + result.location + result.temperature)
             /*} catch (e: Exception) {
                 Log.d("micheldr", " viewmodel exception")
             }*/
