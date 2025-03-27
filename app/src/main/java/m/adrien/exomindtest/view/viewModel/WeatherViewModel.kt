@@ -3,19 +3,16 @@ package m.adrien.exomindtest.view.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import m.adrien.exomindtest.data.datasource.WeatherWebDataSource
-import m.adrien.exomindtest.data.managerimpl.WeatherDataManagerWebImpl
 import m.adrien.exomindtest.domain.datamanager.WeatherDataManager
 import m.adrien.exomindtest.domain.model.WeatherLocation
+import javax.inject.Inject
 
-class WeatherViewModel : ViewModel() {
-    //fun getTestCall() {}
-
-    //TODO
-    val weatherDataManager : WeatherDataManager =
-        WeatherDataManagerWebImpl(weatherWebDataSource = WeatherWebDataSource())
-
+@HiltViewModel
+class WeatherViewModel @Inject constructor(
+    val weatherDataManager : WeatherDataManager
+): ViewModel() {
 
     fun getTestCall() {
         viewModelScope.launch {

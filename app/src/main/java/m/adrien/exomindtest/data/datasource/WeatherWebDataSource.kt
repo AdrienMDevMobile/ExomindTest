@@ -8,8 +8,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
+import javax.inject.Inject
 
-class WeatherWebDataSource {
+class WeatherWebDataSource @Inject constructor(){
 
     //TODO : mieux injecter ces attributs là
     private val BASE_URL =
