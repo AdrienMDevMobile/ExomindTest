@@ -1,13 +1,13 @@
 package m.adrien.exomindtest.data.datasource
 
 import android.util.Log
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import m.adrien.exomindtest.data.model.WeatherJsonResponse
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 class WeatherWebDataSource {
 
@@ -20,8 +20,10 @@ class WeatherWebDataSource {
     }
     private val client = OkHttpClient.Builder().apply { addInterceptor(logging) }.build()
 
+    private val appJson = Json { ignoreUnknownKeys = true }
+
     private val retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(appJson.asConverterFactory("application/json".toMediaType()))
         .baseUrl(BASE_URL)
         .client(client)
         .build()
