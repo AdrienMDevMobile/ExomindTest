@@ -5,6 +5,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import m.adrien.exomindtest.data.model.WeatherJsonResponse
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 class WeatherWebDataSource {
@@ -12,9 +14,15 @@ class WeatherWebDataSource {
     //TODO : mieux injecter ces attributs là
     private val BASE_URL =
         "https://api.openweathermap.org/data/2.5/"
+    private val logging = HttpLoggingInterceptor().apply {
+        setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
+    private val client = OkHttpClient.Builder().apply { addInterceptor(logging) }.build()
+
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .baseUrl(BASE_URL)
+        .client(client)
         .build()
 
     private val retrofitService: WeatherApiService by lazy {

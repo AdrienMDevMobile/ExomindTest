@@ -62,4 +62,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.json.converter)
     implementation(libs.squareup.okhttp)
+    implementation(libs.squareup.loggin.interceptor)
 }
