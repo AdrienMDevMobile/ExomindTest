@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jetbrain.serialization.plugin)
+    alias(libs.plugins.google.dagger.hilt)
+    id("kotlin-kapt")
 }
 
 android {
@@ -63,4 +65,10 @@ dependencies {
     implementation(libs.json.converter)
     implementation(libs.squareup.okhttp)
     implementation(libs.squareup.loggin.interceptor)
+    implementation(libs.google.dagger.hilt)
+    kapt(libs.google.dagger.hilt.compiler)
+}
+
+kapt {
+    correctErrorTypes = true
 }
