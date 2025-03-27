@@ -14,6 +14,7 @@ class WeatherWebDataSource {
     //TODO : mieux injecter ces attributs là
     private val BASE_URL =
         "https://api.openweathermap.org/data/2.5/"
+    //Use Flavour to determin if it should set or not (for Prod)
     private val logging = HttpLoggingInterceptor().apply {
         setLevel(HttpLoggingInterceptor.Level.BODY)
     }
