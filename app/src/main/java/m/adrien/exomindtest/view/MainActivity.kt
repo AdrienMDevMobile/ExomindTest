@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -35,7 +36,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             //utiliser hilt pour injecter le viewmodel
             //https://stackoverflow.com/questions/76051175/how-to-correctly-create-viewmodel-in-compose
-            val state by viewModel.loadingState.observeAsState(LoadingBarUiState.Waiting)
+            val loadingState by viewModel.loadingState.observeAsState(LoadingBarUiState.Waiting)
+            val weatherState by viewModel.weatherListState.observeAsState(emptyList())
 
             ExomindTestTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -45,15 +47,30 @@ class MainActivity : ComponentActivity() {
                                 //viewModel.getTestCall()
                                 viewModel.onEvent(LoadingEvent.OnLoadingClick)
                             },
-                            modifier = Modifier.padding(innerPadding)
+                            modifier = Modifier.padding(innerPadding),
+                            enabled = (loadingState is LoadingBarUiState.Waiting)
                         ) {
                             Text("click here")
                         }
                         LoadingBar(
-                            state = state,
-                            loadingFinishedListener =  { viewModel.onEvent(LoadingEvent.OnLoadingAnimationFinished(it)) },
+                            state = loadingState,
+                            loadingFinishedListener = {
+                                viewModel.onEvent(
+                                    LoadingEvent.OnLoadingAnimationFinished(
+                                        it
+                                    )
+                                )
+                            },
                             modifier = Modifier.fillMaxWidth()
                         )
+
+                        LazyColumn {
+                            weatherState.forEach { weather ->
+                                item {
+                                    Text(weather)
+                                }
+                            }
+                        }
                     }
 
                 }
