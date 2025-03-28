@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.squareup.retrofit)
     implementation(libs.squareup.scalar.converter)
     implementation(libs.jetbrain.serialization)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
