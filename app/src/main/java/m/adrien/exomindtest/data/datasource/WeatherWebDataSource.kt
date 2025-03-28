@@ -1,5 +1,6 @@
 package m.adrien.exomindtest.data.datasource
 
+import android.system.ErrnoException
 import android.util.Log
 import kotlinx.serialization.json.Json
 import m.adrien.exomindtest.data.model.WeatherJsonResponse
@@ -33,10 +34,15 @@ class WeatherWebDataSource @Inject constructor(){
         retrofit.create(WeatherApiService::class.java)
     }
 
-    suspend fun callWeatherWeb(cityName: String) :  WeatherJsonResponse{
+    suspend fun callWeatherWeb(cityName: String) :  Result<WeatherJsonResponse>{
         Log.d("micheldr","callWeatherWeb")
-        val response = retrofitService.getWeather(cityName, WeatherApiKey().apiKey)
-        Log.d("micheldr", "post response")
-        return response
+        try {
+            val response = retrofitService.getWeather(cityName, WeatherApiKey().apiKey)
+            Log.d("micheldr", "post response")
+            return Result.success(response)
+        } catch(e: Exception){
+            return Result.failure(e)
+        }
+
     }
 }

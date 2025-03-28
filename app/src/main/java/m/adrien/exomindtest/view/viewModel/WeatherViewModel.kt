@@ -11,18 +11,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    val weatherDataManager : WeatherDataManager
+    private val weatherDataManager : WeatherDataManager
 ): ViewModel() {
 
     fun getTestCall() {
         viewModelScope.launch {
-            //marsUiState = MarsUiState.Loading
-            //try {
             val result = weatherDataManager.getWeather(WeatherLocation.PARIS)
-            Log.d("micheldr ", "viewmodel got result" + result.weather.size + " " + result.location + result.temperature)
-            /*} catch (e: Exception) {
-                Log.d("micheldr", " viewmodel exception")
-            }*/
+            result.onSuccess { success ->
+                Log.d("micheldr ", "viewmodel got result" + success.weather.size + " " + success.location + success.temperature)
+            }.onFailure {
+                Log.d("micheldr", "Failure")
+            }
+
         }
     }
 }
