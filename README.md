@@ -2,12 +2,13 @@ README
 
 J'ai fait l'appel réseau avec Retrofit.
 L'appel réseau est enrobé de la classe Result afin de gérer les erreurs.
+Une présentation de l'intercepteur de reponse http est présent en commentaire (pour faire des tests sur les retours possibles)
 La structure suit des principes SOLID
 Les dépendances sont injectées par Hilt.
 
 
 Changements à faire :
-utiliser les flavours pour
+utiliser les flavours pour mettre ou non les intercepteur logger d'appel http
 Pour les réponses web mockées : les déplacer dans leurs fichiers à part.
 Dans le projet, toutes les exceptions ont été rangées dans la même action par le view model.
 Professionnellement, Les exceptions renvoyées doivent être gérés plus finement : s'agit t il d'une absence de reseau ? une erreur back end ?

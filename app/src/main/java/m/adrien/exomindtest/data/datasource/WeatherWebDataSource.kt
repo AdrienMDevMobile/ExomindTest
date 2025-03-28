@@ -3,14 +3,8 @@ package m.adrien.exomindtest.data.datasource
 import android.util.Log
 import kotlinx.serialization.json.Json
 import m.adrien.exomindtest.data.model.WeatherJsonResponse
-import okhttp3.Interceptor
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.ResponseBody
-import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
