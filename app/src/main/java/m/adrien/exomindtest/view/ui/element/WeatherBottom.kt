@@ -1,5 +1,6 @@
 package m.adrien.exomindtest.view.ui.element
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
@@ -17,37 +18,43 @@ import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 @Composable
 fun WeatherBottom(
     onWeatherClick: () -> Unit,
-    loadingFinishedListener : (Float) -> Unit,
+    loadingFinishedListener: (Float) -> Unit,
     loadingState: LoadingBarUiState,
     loadingMessage: LoadingMessage?,
-    modifier: Modifier = Modifier) {
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier) {
         Text(
             stringResource(R.string.weather_arrival_message)
         )
-        Button(
-            onClick = {
-                onWeatherClick()
+        //TODO la logique de l'affichage ne devrait pas être gérée par la vue, mais par la viewmodel (uiState)
+        if (loadingState is LoadingBarUiState.Waiting) {
+            Button(
+                onClick = {
+                    onWeatherClick()
+                },
+            ) {
+                Text(stringResource(R.string.weather_start))
+            }
+        }
 
-            },
-            //TODO la logique de enabled ne devrait pas être gérée par la vue, par la viewmodel (uiState)
-            enabled = (loadingState is LoadingBarUiState.Waiting || loadingState is LoadingBarUiState.Finished)
-        ) {
-            Text(
-                if (loadingState is LoadingBarUiState.Finished) {
-                    //TODO utiliser message catalogue
-                    "Recommencer"
-                } else {
-                    "click here"
-                }
+        Text(loadingMessage?.toStringRes()?.let { stringResource(it) } ?: "")
+        if (loadingState is LoadingBarUiState.Finished) {
+            Button(
+                onClick = {
+                    onWeatherClick()
+                },
+            ) {
+                Text(stringResource(R.string.weather_restart))
+            }
+        } else {
+            LoadingBar(
+                state = loadingState,
+                loadingFinishedListener = loadingFinishedListener,
+                modifier = Modifier.fillMaxWidth()
             )
         }
-        Text(loadingMessage?.toStringRes()?.let { stringResource(it) } ?: "")
-        LoadingBar(
-            state = loadingState,
-            loadingFinishedListener = loadingFinishedListener,
-            modifier = Modifier.fillMaxWidth()
-        )
+
 
 
     }

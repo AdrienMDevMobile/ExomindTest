@@ -35,6 +35,7 @@ fun LoadingBar(
     state: LoadingBarUiState,
     loadingFinishedListener: ((Float) -> Unit)?,
     modifier: Modifier = Modifier,
+    //TODO ne pas utiliser des couleurs en brute
     colorLoading: Color = Color.Red,
     colorFinished: Color = Color(0xFF009900),
 ) {
