@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.squareup.scalar.converter)
     implementation(libs.jetbrain.serialization)
     implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
