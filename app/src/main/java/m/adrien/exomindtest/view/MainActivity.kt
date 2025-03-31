@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
             //utiliser hilt pour injecter le viewmodel
             //https://stackoverflow.com/questions/76051175/how-to-correctly-create-viewmodel-in-compose
             val loadingState by viewModel.loadingState.observeAsState(LoadingBarUiState.Waiting)
+            val loadingMessage by viewModel.loadingMessage.observeAsState(null)
             val weatherState by viewModel.weatherListState.observeAsState(emptyList())
 
             ExomindTestTheme {
@@ -52,12 +53,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Text("click here")
                         }
-                        if(loadingState is LoadingBarUiState.Loading){
-                            //TODO Faire cela plus propre
-                            Text(text = (loadingState as LoadingBarUiState.Loading).message.toString())
-                        } else {
-                            Text("")
-                        }
+                        Text(loadingMessage?.toString() ?: "")
                         LoadingBar(
                             state = loadingState,
                             loadingFinishedListener = {

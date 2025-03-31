@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import m.adrien.exomindtest.domain.datamanager.LoadingMessageManager
 import m.adrien.exomindtest.domain.datamanager.WeatherDataManager
@@ -35,10 +36,14 @@ class WeatherViewModel @Inject constructor(
 
     private val weatherLocations = WeatherLocationList().getWeatherLocationList()
 
-
+    //TODO avoir une seule classe UiState qui réunit les deux serait mieux, mais ici cela permet de gagner du temps
     private val _loadingState = MutableLiveData<LoadingBarUiState>(LoadingBarUiState.Waiting)
     val loadingState: LiveData<LoadingBarUiState>
         get() = _loadingState
+
+    private val _loadingMessage = MutableLiveData<LoadingMessage?>(null)
+    val loadingMessage: LiveData<LoadingMessage?>
+        get() = _loadingMessage
 
     private val _weatherListState = MutableLiveData<List<String>>(emptyList())
     val weatherListState: LiveData<List<String>>
@@ -54,7 +59,16 @@ class WeatherViewModel @Inject constructor(
     private fun onLoadingClick() {
         viewModelScope.launch {
             _loadingState.value = LoadingBarUiState.Loading(0.0f, LoadingMessage.only_seconds)
-            /*
+
+            val loadingMessageFlow = viewModelScope.launch {
+                waitingMessageManager.getLoadingMessage().collect { newLoadingMessage ->
+                    _loadingMessage.value = newLoadingMessage
+                }
+            }
+
+            //TODO plutôt que ce soit le viewmodel qui boucle les localisations,
+            // une autre option il faut plutôt que cela soit fait par le Datamanager.
+            //Au retour du dernier message du data manager, le viewmodel éteindra tous les process
             var locationsCount = 0
             for (location in weatherLocations) {
                 _weatherListState.value = _weatherListState.value?.plus(location.toString())
@@ -63,8 +77,10 @@ class WeatherViewModel @Inject constructor(
                     locationsCount.toFloat() / weatherLocations.size,
                     LoadingMessage.only_seconds
                 )
-                delay(1000)
-            }*/
+                delay(10000)
+            }
+            loadingMessageFlow.cancel()
+            _loadingMessage.value = null
 
             /*
             _loadingState.value = LoadingBarUiState.Loading(0.5f, LoadingMessage.only_seconds)
@@ -75,9 +91,7 @@ class WeatherViewModel @Inject constructor(
             _loadingState.value = LoadingBarUiState.Loading(1f, LoadingMessage.only_seconds)
             Log.d("loading", "1f")*/
 
-            waitingMessageManager.getLoadingMessage().collect { loadingMessage ->
-                _loadingState.value = LoadingBarUiState.Loading(0.0f, loadingMessage)
-            }
+
         }
     }
 
