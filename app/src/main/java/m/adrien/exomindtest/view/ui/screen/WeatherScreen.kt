@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import m.adrien.exomindtest.view.ui.element.WeatherTable
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBar
@@ -20,7 +19,8 @@ import m.adrien.exomindtest.view.viewModel.WeatherViewModel
 
 @Composable
 fun WeatherScreen(
-    viewModel: WeatherViewModel = viewModel()
+    onBackClick: () -> Unit,
+    viewModel: WeatherViewModel
 ) {
     //utiliser hilt pour injecter le viewmodel
     //https://stackoverflow.com/questions/76051175/how-to-correctly-create-viewmodel-in-compose
@@ -29,37 +29,37 @@ fun WeatherScreen(
     val weatherState by viewModel.weatherListState.observeAsState(emptyList())
 
 
-        Column {
-            Button(
-                onClick = {
-                    viewModel.onEvent(LoadingEvent.OnLoadingClick)
-                },
-                //TODO la logique de enabled ne devrait pas être gérée par la vue, par la viewmodel (uiState)
-                enabled = (loadingState is LoadingBarUiState.Waiting || loadingState is LoadingBarUiState.Finished)
-            ) {
-                Text(
-                    if (loadingState is LoadingBarUiState.Finished) {
-                        //TODO utiliser message catalogue
-                        "Recommencer"
-                    } else {
-                        "click here"
-                    }
-                )
-            }
-            Text(loadingMessage?.toString() ?: "")
-            LoadingBar(
-                state = loadingState,
-                loadingFinishedListener = {
-                    viewModel.onEvent(
-                        LoadingEvent.OnLoadingAnimationFinished(
-                            it
-                        )
-                    )
-                },
-                modifier = Modifier.fillMaxWidth()
+    Column {
+        Button(
+            onClick = {
+                viewModel.onEvent(LoadingEvent.OnLoadingClick)
+            },
+            //TODO la logique de enabled ne devrait pas être gérée par la vue, par la viewmodel (uiState)
+            enabled = (loadingState is LoadingBarUiState.Waiting || loadingState is LoadingBarUiState.Finished)
+        ) {
+            Text(
+                if (loadingState is LoadingBarUiState.Finished) {
+                    //TODO utiliser message catalogue
+                    "Recommencer"
+                } else {
+                    "click here"
+                }
             )
-
-            WeatherTable(weatherState)
         }
+        Text(loadingMessage?.toString() ?: "")
+        LoadingBar(
+            state = loadingState,
+            loadingFinishedListener = {
+                viewModel.onEvent(
+                    LoadingEvent.OnLoadingAnimationFinished(
+                        it
+                    )
+                )
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        WeatherTable(weatherState)
+    }
 
 }

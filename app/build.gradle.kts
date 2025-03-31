@@ -71,6 +71,7 @@ dependencies {
     kapt(libs.google.dagger.hilt.compiler)
     //libs.toml c'est bien gentil pour les gros projets. pour ce petit projet c'est juste une perte de temps
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation(libs.androidx.hilt.navigation.compose)
 }
 
 kapt {

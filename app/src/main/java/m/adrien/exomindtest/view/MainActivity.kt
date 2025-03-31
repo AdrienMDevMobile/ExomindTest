@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import m.adrien.exomindtest.view.ui.screen.WeatherScreen
 import m.adrien.exomindtest.view.ui.screen.WelcomeScreen
 import m.adrien.exomindtest.view.ui.theme.ExomindTestTheme
+import m.adrien.exomindtest.view.viewModel.WeatherViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -35,8 +37,14 @@ class MainActivity : ComponentActivity() {
                         startDestination = "Welcome",
                         Modifier.padding(innerPadding)
                     ) {
-                        composable(route = "Welcome") { WelcomeScreen() }
-                        composable(route ="Weather") { WeatherScreen() }
+                        composable(route = "Welcome") {
+                            WelcomeScreen({ navController.navigate("Weather") }
+                            )
+                        }
+                        composable(route = "Weather") {
+                            val viewModel = hiltViewModel<WeatherViewModel>()
+                            WeatherScreen({ navController.popBackStack() }, viewModel)
+                        }
                     }
 
                 }
