@@ -70,7 +70,7 @@ class WeatherViewModel @Inject constructor(
         //Au retour du dernier message du data manager, le viewmodel éteindra tous les process
         var locationsCount = 0
         for (location in weatherLocations) {
-            delay(10000)
+
             weatherDataManager.getWeather(location).onSuccess { weathers ->
                 //TODO : afin de miminmer les rafraichissement, il faut rentrer les deux météos en même temps
                 // pour cela Creer une sous liste et l'ajotuer d'un coup
@@ -83,11 +83,12 @@ class WeatherViewModel @Inject constructor(
             }
 
             locationsCount++
-
             _loadingState.value = LoadingBarUiState.Loading(
                 locationsCount.toFloat() / weatherLocations.size,
                 LoadingMessage.only_seconds
             )
+            //TODO Le dernier delay fait bizzare, mais cela est dans l'énoncé
+            delay(10000)
         }
     }
 

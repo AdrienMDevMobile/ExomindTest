@@ -16,7 +16,7 @@ fun WeatherTable(state: List<WeatherInfoUiState>){
     LazyColumn {
         state.forEach { weather ->
             item {
-                //TODO faire mieux le tableau
+                //TODO faire un tableau plus joli
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround

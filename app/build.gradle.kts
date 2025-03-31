@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.squareup.loggin.interceptor)
     implementation(libs.google.dagger.hilt)
     kapt(libs.google.dagger.hilt.compiler)
+    //libs.toml c'est bien gentil pour les gros projets. pour ce petit projet c'est juste une perte de temps
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 }
 
 kapt {
