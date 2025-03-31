@@ -1,4 +1,4 @@
-package m.adrien.exomindtest.view.ui.loadingBar
+package m.adrien.exomindtest.domain.model
 
 enum class LoadingMessage {
     downloading,

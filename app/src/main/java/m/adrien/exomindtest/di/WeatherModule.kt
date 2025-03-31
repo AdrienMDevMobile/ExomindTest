@@ -4,7 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import m.adrien.exomindtest.data.managerimpl.LoadingMessageManagerImpl
 import m.adrien.exomindtest.data.managerimpl.WeatherDataManagerWebImpl
+import m.adrien.exomindtest.domain.datamanager.LoadingMessageManager
 import m.adrien.exomindtest.domain.datamanager.WeatherDataManager
 import javax.inject.Singleton
 
@@ -16,4 +18,10 @@ abstract class WeatherModule {
     abstract fun bindWeatherDataManager(
         manager: WeatherDataManagerWebImpl
     ): WeatherDataManager
+
+    @Singleton
+    @Binds
+    abstract fun bindLoadingMessageManager(
+        manager: LoadingMessageManagerImpl
+    ): LoadingMessageManager
 }

@@ -7,16 +7,18 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import m.adrien.exomindtest.domain.datamanager.LoadingMessageManager
 import m.adrien.exomindtest.domain.datamanager.WeatherDataManager
 import m.adrien.exomindtest.domain.datamanager.WeatherLocationList
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
-import m.adrien.exomindtest.view.ui.loadingBar.LoadingMessage
+import m.adrien.exomindtest.domain.model.LoadingMessage
 import javax.inject.Inject
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    private val weatherDataManager: WeatherDataManager
+    private val weatherDataManager: WeatherDataManager,
+    private val waitingMessageManager: LoadingMessageManager
 ) : ViewModel() {
 
     /*
@@ -53,6 +55,7 @@ class WeatherViewModel @Inject constructor(
     private fun onLoadingClick() {
         viewModelScope.launch {
             _loadingState.value = LoadingBarUiState.Loading(0.0f, LoadingMessage.only_seconds)
+            /*
             var locationsCount = 0
             for (location in weatherLocations) {
                 _weatherListState.value = _weatherListState.value?.plus(location.toString())
@@ -62,7 +65,8 @@ class WeatherViewModel @Inject constructor(
                     LoadingMessage.only_seconds
                 )
                 delay(1000)
-            }
+            }*/
+
             /*
             _loadingState.value = LoadingBarUiState.Loading(0.5f, LoadingMessage.only_seconds)
             delay(1000)
@@ -71,6 +75,10 @@ class WeatherViewModel @Inject constructor(
             delay(1000)
             _loadingState.value = LoadingBarUiState.Loading(1f, LoadingMessage.only_seconds)
             Log.d("loading", "1f")*/
+
+            waitingMessageManager.getLoadingMessage().collect { loadingMessage ->
+                _loadingState.value = LoadingBarUiState.Loading(0.0f, loadingMessage)
+            }
         }
     }
 

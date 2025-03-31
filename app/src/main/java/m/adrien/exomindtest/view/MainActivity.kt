@@ -52,6 +52,12 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Text("click here")
                         }
+                        if(loadingState is LoadingBarUiState.Loading){
+                            //TODO Faire cela plus propre
+                            Text(text = (loadingState as LoadingBarUiState.Loading).message.toString())
+                        } else {
+                            Text("")
+                        }
                         LoadingBar(
                             state = loadingState,
                             loadingFinishedListener = {

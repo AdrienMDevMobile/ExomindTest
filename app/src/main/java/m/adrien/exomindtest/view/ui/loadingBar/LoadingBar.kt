@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import m.adrien.exomindtest.domain.model.LoadingMessage
 import m.adrien.exomindtest.view.ui.theme.ExomindTestTheme
 
 @Composable
@@ -49,6 +51,8 @@ fun LoadingBar(
             .height(50.dp)) {
             when (state) {
                 is LoadingBarUiState.Loading -> {
+                    //TODO le message doit utiliser le catalogue de traduction
+
                     var progress by remember { mutableFloatStateOf(0f) }
                     val animatedProgress = animateFloatAsState(
                         targetValue = progress,
