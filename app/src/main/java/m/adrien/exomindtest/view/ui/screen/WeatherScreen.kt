@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import m.adrien.exomindtest.view.ui.element.WeatherTable
+import m.adrien.exomindtest.view.ui.element.WeatherTopBar
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBar
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
@@ -28,8 +29,8 @@ fun WeatherScreen(
     val loadingMessage by viewModel.loadingMessage.observeAsState(null)
     val weatherState by viewModel.weatherListState.observeAsState(emptyList())
 
-
     Column {
+        WeatherTopBar(onBackClick)
         Button(
             onClick = {
                 viewModel.onEvent(LoadingEvent.OnLoadingClick)
