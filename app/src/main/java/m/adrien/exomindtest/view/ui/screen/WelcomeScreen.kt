@@ -3,8 +3,6 @@ package m.adrien.exomindtest.view.ui.screen
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import m.adrien.exomindtest.view.ui.event.LoadingEvent
-import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 
 @Composable
 fun WelcomeScreen(
