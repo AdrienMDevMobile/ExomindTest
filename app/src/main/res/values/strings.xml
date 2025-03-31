@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ExomindTest</string>
+    <string name="welcome_text">Ceci est un texte</string>
+    <string name="navigate_to_weather">Naviguer</string>
+    <string name="weather_arrival_message">Ce texte est toujours affiché</string>
+    <string name="weather_waiting_download">Ce texte est toujours affiché</string>
+    <string name="weather_waiting_finish">Ce texte est toujours affiché</string>
+    <string name="weather_waiting_result">Ce texte est toujours affiché</string>
 </resources>

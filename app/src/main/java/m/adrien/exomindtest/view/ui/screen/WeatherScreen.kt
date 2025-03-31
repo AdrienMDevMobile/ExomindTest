@@ -1,24 +1,27 @@
 package m.adrien.exomindtest.view.ui.screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import m.adrien.exomindtest.view.ui.element.WeatherTable
 import m.adrien.exomindtest.view.ui.element.WeatherTopBar
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
-import m.adrien.exomindtest.view.ui.loadingBar.LoadingBar
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 import m.adrien.exomindtest.view.viewModel.WeatherViewModel
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import m.adrien.exomindtest.view.ui.element.WeatherBottom
 
 @Composable
 fun WeatherScreen(
-    onBackClick: () -> Unit,
-    viewModel: WeatherViewModel
+    onBackClick: () -> Unit, viewModel: WeatherViewModel
 ) {
     //utiliser hilt pour injecter le viewmodel
     //https://stackoverflow.com/questions/76051175/how-to-correctly-create-viewmodel-in-compose
@@ -26,27 +29,20 @@ fun WeatherScreen(
     val loadingMessage by viewModel.loadingMessage.observeAsState(null)
     val weatherState by viewModel.weatherListState.observeAsState(emptyList())
 
-    Column {
+
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
         WeatherTopBar(onBackClick)
-        Button(
-            onClick = {
-                viewModel.onEvent(LoadingEvent.OnLoadingClick)
-            },
-            //TODO la logique de enabled ne devrait pas être gérée par la vue, par la viewmodel (uiState)
-            enabled = (loadingState is LoadingBarUiState.Waiting || loadingState is LoadingBarUiState.Finished)
-        ) {
-            Text(
-                if (loadingState is LoadingBarUiState.Finished) {
-                    //TODO utiliser message catalogue
-                    "Recommencer"
-                } else {
-                    "click here"
-                }
-            )
-        }
-        Text(loadingMessage?.toString() ?: "")
-        LoadingBar(
-            state = loadingState,
+
+
+        WeatherTable(weatherState, modifier = Modifier.fillMaxWidth())
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        WeatherBottom(
+            onWeatherClick = { viewModel.onEvent(LoadingEvent.OnLoadingClick) },
             loadingFinishedListener = {
                 viewModel.onEvent(
                     LoadingEvent.OnLoadingAnimationFinished(
@@ -54,10 +50,12 @@ fun WeatherScreen(
                     )
                 )
             },
+            loadingState = loadingState,
+            loadingMessage = loadingMessage,
             modifier = Modifier.fillMaxWidth()
         )
 
-        WeatherTable(weatherState)
     }
+
 
 }

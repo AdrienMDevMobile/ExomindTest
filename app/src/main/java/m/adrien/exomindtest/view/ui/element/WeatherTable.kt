@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import m.adrien.exomindtest.view.ui.uiState.WeatherInfoUiState
 
 @Composable
-fun WeatherTable(state: List<WeatherInfoUiState>){
+fun WeatherTable(state: List<WeatherInfoUiState>, modifier: Modifier = Modifier){
     LazyColumn {
         state.forEach { weather ->
             item {

@@ -72,6 +72,7 @@ dependencies {
     //libs.toml c'est bien gentil pour les gros projets. pour ce petit projet c'est juste une perte de temps
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }
 
 kapt {
