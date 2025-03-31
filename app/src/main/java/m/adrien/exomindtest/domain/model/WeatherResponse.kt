@@ -3,7 +3,7 @@ package m.adrien.exomindtest.domain.model
 data class WeatherResponse(
     val location : String,
     val temperature: Float,
-    val weather: List<Weather>,
+    val weathers: List<Weather>,
 )
 
 enum class Weather {

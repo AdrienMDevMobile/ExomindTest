@@ -13,6 +13,8 @@ import m.adrien.exomindtest.domain.datamanager.WeatherLocationList
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 import m.adrien.exomindtest.domain.model.LoadingMessage
+import m.adrien.exomindtest.view.ui.converter.toDrawable
+import m.adrien.exomindtest.view.ui.uiState.WeatherInfoUiState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,8 +34,8 @@ class WeatherViewModel @Inject constructor(
     val loadingMessage: LiveData<LoadingMessage?>
         get() = _loadingMessage
 
-    private val _weatherListState = MutableLiveData<List<String>>(emptyList())
-    val weatherListState: LiveData<List<String>>
+    private val _weatherListState = MutableLiveData<List<WeatherInfoUiState>>(emptyList())
+    val weatherListState: LiveData<List<WeatherInfoUiState>>
         get() = _weatherListState
 
     fun onEvent(event: LoadingEvent) {
@@ -69,8 +71,13 @@ class WeatherViewModel @Inject constructor(
         var locationsCount = 0
         for (location in weatherLocations) {
             delay(10000)
-            weatherDataManager.getWeather(location).onSuccess { weather ->
-                _weatherListState.value = _weatherListState.value?.plus(weather.location + weather.weather.size + weather.temperature)
+            weatherDataManager.getWeather(location).onSuccess { weathers ->
+                //TODO : afin de miminmer les rafraichissement, il faut rentrer les deux météos en même temps
+                // pour cela Creer une sous liste et l'ajotuer d'un coup
+                for(weather in weathers.weathers){
+                    _weatherListState.value = _weatherListState.value?.plus(WeatherInfoUiState(weathers.location, weathers.temperature, weather.toDrawable()))
+                }
+
             }.onFailure {
                 //TODO dans un vrai projet
             }

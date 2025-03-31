@@ -5,20 +5,24 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
+import m.adrien.exomindtest.view.ui.element.WeatherTable
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBar
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
@@ -48,6 +52,7 @@ class MainActivity : ComponentActivity() {
                                 viewModel.onEvent(LoadingEvent.OnLoadingClick)
                             },
                             modifier = Modifier.padding(innerPadding),
+                            //TODO la logique de enabled ne devrait pas être gérée par la vue, par la viewmodel (uiState)
                             enabled = (loadingState is LoadingBarUiState.Waiting || loadingState is LoadingBarUiState.Finished)
                         ) {
                             Text(
@@ -72,13 +77,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxWidth()
                         )
 
-                        LazyColumn {
-                            weatherState.forEach { weather ->
-                                item {
-                                    Text(weather)
-                                }
-                            }
-                        }
+                        WeatherTable(weatherState)
                     }
 
                 }

@@ -7,6 +7,6 @@ fun WeatherJsonResponse.toDomain(): WeatherResponse =
     WeatherResponse(
         location = this.name,
         temperature = this.main.temp,
-        weather = this.weather.map {
+        weathers = this.weather.map {
             it.main.toWeather()
         })
