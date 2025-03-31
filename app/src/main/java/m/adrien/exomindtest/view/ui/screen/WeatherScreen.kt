@@ -1,6 +1,5 @@
 package m.adrien.exomindtest.view.ui.screen
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,15 +7,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import m.adrien.exomindtest.view.ui.element.WeatherTable
 import m.adrien.exomindtest.view.ui.element.WeatherTopBar
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 import m.adrien.exomindtest.view.viewModel.WeatherViewModel
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import m.adrien.exomindtest.view.ui.element.WeatherBottom
 
 @Composable

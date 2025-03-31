@@ -1,6 +1,5 @@
 package m.adrien.exomindtest.view.ui.element
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
