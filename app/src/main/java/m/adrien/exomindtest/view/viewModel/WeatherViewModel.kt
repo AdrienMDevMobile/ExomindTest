@@ -21,19 +21,6 @@ class WeatherViewModel @Inject constructor(
     private val waitingMessageManager: LoadingMessageManager
 ) : ViewModel() {
 
-    /*
-    fun getTestCall() {
-        viewModelScope.launch {
-            val result = weatherDataManager.getWeather(WeatherLocation.PARIS)
-            result.onSuccess { success ->
-                Log.d("micheldr ", "viewmodel got result" + success.weather.size + " " + success.location + success.temperature)
-            }.onFailure {
-                Log.d("micheldr", "Failure")
-            }
-
-        }
-    }*/
-
     private val weatherLocations = WeatherLocationList().getWeatherLocationList()
 
     //TODO avoir une seule classe UiState qui réunit les deux serait mieux, mais ici cela permet de gagner du temps
@@ -58,6 +45,8 @@ class WeatherViewModel @Inject constructor(
 
     private fun onLoadingClick() {
         viewModelScope.launch {
+            _weatherListState.value = emptyList()
+
             _loadingState.value = LoadingBarUiState.Loading(0.0f, LoadingMessage.only_seconds)
 
             val loadingMessageFlow = viewModelScope.launch {
@@ -66,32 +55,32 @@ class WeatherViewModel @Inject constructor(
                 }
             }
 
-            //TODO plutôt que ce soit le viewmodel qui boucle les localisations,
-            // une autre option il faut plutôt que cela soit fait par le Datamanager.
-            //Au retour du dernier message du data manager, le viewmodel éteindra tous les process
-            var locationsCount = 0
-            for (location in weatherLocations) {
-                _weatherListState.value = _weatherListState.value?.plus(location.toString())
-                locationsCount++
-                _loadingState.value = LoadingBarUiState.Loading(
-                    locationsCount.toFloat() / weatherLocations.size,
-                    LoadingMessage.only_seconds
-                )
-                delay(10000)
-            }
+            callWeathers()
+
             loadingMessageFlow.cancel()
             _loadingMessage.value = null
+        }
+    }
 
-            /*
-            _loadingState.value = LoadingBarUiState.Loading(0.5f, LoadingMessage.only_seconds)
-            delay(1000)
-            _loadingState.value = LoadingBarUiState.Loading(0.7f, LoadingMessage.only_seconds)
-            Log.d("loading", "0.7f")
-            delay(1000)
-            _loadingState.value = LoadingBarUiState.Loading(1f, LoadingMessage.only_seconds)
-            Log.d("loading", "1f")*/
+    private suspend fun callWeathers(){
+        //TODO plutôt que ce soit le viewmodel qui boucle les localisations,
+        // une autre option il faut plutôt que cela soit fait par le Datamanager.
+        //Au retour du dernier message du data manager, le viewmodel éteindra tous les process
+        var locationsCount = 0
+        for (location in weatherLocations) {
+            delay(10000)
+            weatherDataManager.getWeather(location).onSuccess { weather ->
+                _weatherListState.value = _weatherListState.value?.plus(weather.location + weather.weather.size + weather.temperature)
+            }.onFailure {
+                //TODO dans un vrai projet
+            }
 
+            locationsCount++
 
+            _loadingState.value = LoadingBarUiState.Loading(
+                locationsCount.toFloat() / weatherLocations.size,
+                LoadingMessage.only_seconds
+            )
         }
     }
 

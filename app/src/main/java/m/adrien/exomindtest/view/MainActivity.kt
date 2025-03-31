@@ -45,13 +45,19 @@ class MainActivity : ComponentActivity() {
                     Column {
                         Button(
                             onClick = {
-                                //viewModel.getTestCall()
                                 viewModel.onEvent(LoadingEvent.OnLoadingClick)
                             },
                             modifier = Modifier.padding(innerPadding),
-                            enabled = (loadingState is LoadingBarUiState.Waiting)
+                            enabled = (loadingState is LoadingBarUiState.Waiting || loadingState is LoadingBarUiState.Finished)
                         ) {
-                            Text("click here")
+                            Text(
+                                if (loadingState is LoadingBarUiState.Finished) {
+                                    //TODO utiliser message catalogue
+                                    "Recommencer"
+                                } else {
+                                    "click here"
+                                }
+                            )
                         }
                         Text(loadingMessage?.toString() ?: "")
                         LoadingBar(
