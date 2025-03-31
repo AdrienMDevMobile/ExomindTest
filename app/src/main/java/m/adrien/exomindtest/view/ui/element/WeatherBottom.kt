@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import m.adrien.exomindtest.R
 import m.adrien.exomindtest.domain.model.LoadingMessage
+import m.adrien.exomindtest.view.ui.converter.toStringRes
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBar
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
@@ -41,7 +42,7 @@ fun WeatherBottom(
                 }
             )
         }
-        Text(loadingMessage?.toString() ?: "")
+        Text(loadingMessage?.toStringRes()?.let { stringResource(it) } ?: "")
         LoadingBar(
             state = loadingState,
             loadingFinishedListener = loadingFinishedListener,
