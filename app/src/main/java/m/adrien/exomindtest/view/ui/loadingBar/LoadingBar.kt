@@ -69,7 +69,7 @@ fun LoadingBar(
                         verticalArrangement = Arrangement.Center
                     ) {
                         CircularProgressIndicator(
-                            //Ne pas mettre les couleurs en dur
+                            //TODO Ne pas mettre les couleurs en dur
                             color = Color.White,
                             strokeWidth = 5.dp,
                         )
@@ -115,18 +115,6 @@ fun LoadingBar(
                             color = Color.White,
                         )
                     }
-
-                    /* Je ne me rappel plus pourquoi j'ai mis cela
-                    LaunchedEffect(key1 = Unit, block = {
-                        while (progress < 1f) {
-                            val addition = progress + 1f / 10
-                            progress = if (addition > 1f) {
-                                1f
-                            } else {
-                                addition
-                            }
-                        }
-                    }) */
 
                     LaunchedEffect(key1 = state, block = {
                         while (progress < 1f) {

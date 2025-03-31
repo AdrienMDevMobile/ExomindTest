@@ -31,7 +31,7 @@ fun CheckMarker(
             .fillMaxHeight()
     ) {
         drawMyCircle(progress, color)
-        drawCheckSign(progress, color) //top = 10f, bottom = size.height - 30
+        drawCheckSign(progress, color)
     }
 }
 
@@ -49,7 +49,6 @@ private fun DrawScope.drawCheckSign(
     val firstTriangleVerticalOffSet = height * 0.1f
     val secondTriangleOverTheTop = height * 0.2f
     val barWidth = height * 0.05f
-    val secondTriangleHorizontalOffset = length / 2
     val rectangleHorizontalOffset = length * 0.1f
 
 
@@ -92,7 +91,6 @@ private fun DrawScope.drawMyCircle(
         Path().apply {
             addOval(
                 Rect(
-                    //Offset(size.width/2, size.height/2),
                     Offset(size.width * 0.05f, size.height * 0.05f),
                     Size(size.width * 0.9f, size.height * 0.9f)
                 )
@@ -106,7 +104,7 @@ private fun DrawScope.drawMyCircle(
 
 @Preview
 @Composable
-fun previewCheck() {
+fun PreviewCheck() {
     Surface(color = Color.Cyan, modifier = Modifier.size(50.dp)) {
         CheckMarker(progress = 1f)
     }
@@ -114,7 +112,7 @@ fun previewCheck() {
 
 @Preview
 @Composable
-fun previewCheckBig() {
+fun PreviewCheckBig() {
     Surface(color = Color.Cyan, modifier = Modifier.size(150.dp)) {
         CheckMarker(progress = 1f)
     }
@@ -122,7 +120,7 @@ fun previewCheckBig() {
 
 @Preview
 @Composable
-fun previewCheckHalf() {
+fun PreviewCheckHalf() {
     Surface(color = Color.Cyan, modifier = Modifier.size(50.dp)) {
         CheckMarker(progress = 0.5f)
     }
