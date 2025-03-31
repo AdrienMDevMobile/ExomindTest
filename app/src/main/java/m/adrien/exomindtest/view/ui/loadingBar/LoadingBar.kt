@@ -27,13 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import m.adrien.exomindtest.domain.model.LoadingMessage
 import m.adrien.exomindtest.view.ui.theme.ExomindTestTheme
 
 @Composable
 fun LoadingBar(
     state: LoadingBarUiState,
     loadingFinishedListener: ((Float) -> Unit)?,
+    finishAnimationFinishedListener: ((Float) -> Unit)?,
     modifier: Modifier = Modifier,
     //TODO ne pas utiliser des couleurs en brute
     colorLoading: Color = Color.Red,
@@ -95,7 +95,8 @@ fun LoadingBar(
                     var progress by remember { mutableFloatStateOf(0f) }
                     val animatedProgress = animateFloatAsState(
                         targetValue = progress,
-                        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+                        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec,
+                        finishedListener = finishAnimationFinishedListener
                     ).value
 
                     ProgressIndicator(
@@ -135,6 +136,10 @@ fun LoadingBar(
                 LoadingBarUiState.Waiting -> {
                     //WaitingContent()
                 }
+
+                LoadingBarUiState.WaitRestart -> {
+                    //WaitingContent()
+                }
             }
         }
 
@@ -156,9 +161,9 @@ fun PreviewLoadingBar() {
             LoadingBar(
                 state = LoadingBarUiState.Loading(
                     progress = 0.5f,
-                    message = LoadingMessage.downloading
                 ),
                 loadingFinishedListener = {},
+                finishAnimationFinishedListener = {}
             )
         }
 
@@ -173,6 +178,7 @@ fun PreviewWaitingBar() {
             LoadingBar(
                 state = LoadingBarUiState.Waiting,
                 loadingFinishedListener = {},
+                finishAnimationFinishedListener = {},
             )
         }
     }
@@ -186,6 +192,7 @@ fun PreviewFinishedBar() {
             LoadingBar(
                 state = LoadingBarUiState.Finished,
                 loadingFinishedListener = {},
+                finishAnimationFinishedListener = {}
             )
         }
     }

@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import m.adrien.exomindtest.R
 import m.adrien.exomindtest.domain.model.LoadingMessage
 import m.adrien.exomindtest.view.ui.converter.toStringRes
-import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBar
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 
@@ -19,6 +18,7 @@ import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 fun WeatherBottom(
     onWeatherClick: () -> Unit,
     loadingFinishedListener: (Float) -> Unit,
+    finishAnimationFinishedListener: (Float) -> Unit,
     loadingState: LoadingBarUiState,
     loadingMessage: LoadingMessage?,
     modifier: Modifier = Modifier
@@ -39,7 +39,7 @@ fun WeatherBottom(
         }
 
         Text(loadingMessage?.toStringRes()?.let { stringResource(it) } ?: "")
-        if (loadingState is LoadingBarUiState.Finished) {
+        if (loadingState is LoadingBarUiState.WaitRestart) {
             Button(
                 onClick = {
                     onWeatherClick()
@@ -51,6 +51,7 @@ fun WeatherBottom(
             LoadingBar(
                 state = loadingState,
                 loadingFinishedListener = loadingFinishedListener,
+                finishAnimationFinishedListener = finishAnimationFinishedListener,
                 modifier = Modifier.fillMaxWidth()
             )
         }

@@ -9,7 +9,10 @@ Loading bar à partir de mon ancien projet personnel : https://github.com/Adrien
 Utilisation du Flow pour parraléliser les messages de chargement et l'affichage de la barre
 Utilisation des resources catalogues pour les logos
 
-Changements à faire :
+Non fait : une gestion des erreurs API plus poussé.
+Sans plus d'indication sur ce qu'il fallait faire, je me suis contenté d'ignorer des erreurs api
+
+Changements que j'aurai fait dans un vrai projet :
 utiliser les flavours pour mettre ou non les intercepteur logger d'appel http
 Pour les réponses web mockées : les déplacer dans leurs fichiers à part.
 Dans le projet, toutes les exceptions ont été rangées dans la même action par le view model.  Professionnellement, Les exceptions renvoyées doivent être gérés plus finement : s'agit t il d'une absence de reseau ? une erreur back end ?

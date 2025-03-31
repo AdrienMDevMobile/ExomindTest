@@ -42,6 +42,7 @@ class WeatherViewModel @Inject constructor(
         when (event) {
             LoadingEvent.OnLoadingClick -> onLoadingClick()
             is LoadingEvent.OnLoadingAnimationFinished -> onLoadingAnimationFinished(event.value)
+            LoadingEvent.OnFinishAnimationFinished -> onFinishAnimationFinished()
         }
     }
 
@@ -49,7 +50,7 @@ class WeatherViewModel @Inject constructor(
         viewModelScope.launch {
             _weatherListState.value = emptyList()
 
-            _loadingState.value = LoadingBarUiState.Loading(0.0f, LoadingMessage.only_seconds)
+            _loadingState.value = LoadingBarUiState.Loading(0.0f)
 
             val loadingMessageFlow = viewModelScope.launch {
                 waitingMessageManager.getLoadingMessage().collect { newLoadingMessage ->
@@ -72,7 +73,7 @@ class WeatherViewModel @Inject constructor(
         for (location in weatherLocations) {
 
             weatherDataManager.getWeather(location).onSuccess { weathers ->
-                //TODO : afin de miminmer les rafraichissement, il faut rentrer les deux météos en même temps
+                //TODO : afin de minimiser les rafraichissement, il faut rentrer les deux météos en même temps
                 // pour cela Creer une sous liste et l'ajotuer d'un coup
                 for(weather in weathers.weathers){
                     _weatherListState.value = _weatherListState.value?.plus(WeatherInfoUiState(weathers.location, weathers.temperature, weather.toDrawable()))
@@ -84,8 +85,7 @@ class WeatherViewModel @Inject constructor(
 
             locationsCount++
             _loadingState.value = LoadingBarUiState.Loading(
-                locationsCount.toFloat() / weatherLocations.size,
-                LoadingMessage.only_seconds
+                locationsCount.toFloat() / weatherLocations.size
             )
             //TODO Le dernier delay fait bizzare, mais cela est dans l'énoncé
             delay(10000)
@@ -96,5 +96,9 @@ class WeatherViewModel @Inject constructor(
         if (value == 1f) {
             _loadingState.value = LoadingBarUiState.Finished
         }
+    }
+
+    private fun onFinishAnimationFinished(){
+        _loadingState.value = LoadingBarUiState.WaitRestart
     }
 }

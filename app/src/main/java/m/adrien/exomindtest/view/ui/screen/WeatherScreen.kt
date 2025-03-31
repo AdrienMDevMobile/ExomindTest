@@ -50,6 +50,11 @@ fun WeatherScreen(
                     )
                 )
             },
+            finishAnimationFinishedListener = { _ ->
+                viewModel.onEvent(
+                    LoadingEvent.OnFinishAnimationFinished
+                )
+            },
             loadingState = loadingState,
             loadingMessage = loadingMessage,
             modifier = Modifier.fillMaxWidth()
