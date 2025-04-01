@@ -1,5 +1,5 @@
 README
-![screenshot](https://github.com/AdrienMDevMobile/ExomindTest/blob/main/screenshotloading?raw=true)
+![screenshot](https://github.com/AdrienMDevMobile/ExomindTest/blob/main/screenshotloading.png?raw=true)
 
 **Fait**
 J'ai fait la NAVIGATON entre les deux écrans.
