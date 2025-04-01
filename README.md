@@ -1,4 +1,5 @@
 README
+**Fait**
 J'ai fait la NAVIGATON entre les deux écrans.
 
 J'ai fait l'appel réseau avec RETROFIT.
@@ -22,12 +23,8 @@ Utilisation des resources catalogues pour les logos
 
 
 
-Non fait : une gestion des erreurs API plus poussé.
-Sans plus d'indication sur ce qu'il fallait faire, je me suis contenté d'ignorer des erreurs api
 
-
-
-Changements que j'aurai fait dans un vrai projet :
+**Changements que j'aurai fait dans un vrai projet :**
 
 Pour l'écran WeatherScreen : Créer une seule classe UiState qui indique tout le design de la page.
 
@@ -45,6 +42,8 @@ Rendre les commits plus propres : regrouper/séparer en fonction des sujets. Ren
 
 Ajouter des tests automatisés (notamment la partie domaine)
 
-Note : Une clé d'API doit être gardée secrète.
+**Note :**
+
+Une clé d'API doit être gardée secrète.
 Je me suis contenté de ne pas la présenter dans le projet (un système plus robuste aux erreurs doit être présent dans un projet professionel)
 Veuillez l'ajouter à WeatherWebDataSource la clé.
