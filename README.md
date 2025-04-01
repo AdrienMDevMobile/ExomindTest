@@ -1,4 +1,6 @@
 README
+![screenshot](https://github.com/AdrienMDevMobile/ExomindTest/blob/main/screenshotloading?raw=true)
+
 **Fait**
 J'ai fait la NAVIGATON entre les deux écrans.
 
@@ -16,8 +18,8 @@ Pratiques clean code : le minimum de commentaires, le nom des fonctions et leurs
 
 Les dépendances sont injectées par HILT.
 
-Loading bar à partir de mon ancien projet personnel : https://github.com/AdrienMDevMobile/LoadingButton/
-Qui a ensuite été adapté au projet (notamment le besoin de notifier la fin de l'animation "terminée" afin de la transformer en bouton)
+Loading bar et sa jolie animation. A partir de mon ancien projet personnel : https://github.com/AdrienMDevMobile/LoadingButton/
+Qui a été adapté au projet (notamment le besoin de notifier la fin de l'animation "terminée" afin de la transformer en bouton)
 
 Utilisation des resources catalogues pour les logos
 
