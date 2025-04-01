@@ -15,6 +15,7 @@ import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 import m.adrien.exomindtest.domain.model.LoadingMessage
 import m.adrien.exomindtest.domain.model.WeatherResponse
 import m.adrien.exomindtest.view.ui.converter.toDrawable
+import m.adrien.exomindtest.view.ui.uiState.WeatherErrorUiState
 import m.adrien.exomindtest.view.ui.uiState.WeatherInfoUiState
 import javax.inject.Inject
 
@@ -38,6 +39,10 @@ class WeatherViewModel @Inject constructor(
     private val _weatherListState = MutableLiveData<List<WeatherInfoUiState>>(emptyList())
     val weatherListState: LiveData<List<WeatherInfoUiState>>
         get() = _weatherListState
+
+    private val _errorUiState = MutableLiveData<WeatherErrorUiState?>(null)
+    val errorUiState: LiveData<WeatherErrorUiState?>
+        get() = _errorUiState
 
     fun onEvent(event: LoadingEvent) {
         when (event) {
@@ -78,8 +83,11 @@ class WeatherViewModel @Inject constructor(
             weatherDataManager.getWeather(location)
                 .onSuccess {
                     addWeatherResponseIntoList(it)
+                    _errorUiState.value = null
                 }.onFailure {
-                    //TODO dans un vrai projet
+                    _errorUiState.value = WeatherErrorUiState.Unknow_error
+                    _loadingState.value = LoadingBarUiState.WaitRestart
+                    return
                 }
 
             locationsCount++

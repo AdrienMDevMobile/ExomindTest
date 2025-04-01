@@ -8,4 +8,5 @@
     <string name="weather_waiting_result">Plus que quelques secondes avant d’avoir le résultat…</string>
     <string name="weather_start">Cliquez ici</string>
     <string name="weather_restart">Recommencer</string>
+    <string name="weather_error_unknown">Une erreur c\'est produite. Veuillez réessayer</string>
 </resources>
