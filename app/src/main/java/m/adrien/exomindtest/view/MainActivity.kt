@@ -18,6 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import m.adrien.exomindtest.view.ui.screen.WeatherScreen
 import m.adrien.exomindtest.view.ui.screen.WelcomeScreen
+import m.adrien.exomindtest.view.ui.screen.weather_screen_route
+import m.adrien.exomindtest.view.ui.screen.welcome_screen_route
 import m.adrien.exomindtest.view.ui.theme.ExomindTestTheme
 import m.adrien.exomindtest.view.viewModel.WeatherViewModel
 
@@ -33,15 +35,14 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController,
-                        //TODO Ne pas mettre le nom des routes en dur comme cela.
-                        startDestination = "Welcome",
+                        startDestination = welcome_screen_route,
                         Modifier.padding(innerPadding)
                     ) {
-                        composable(route = "Welcome") {
-                            WelcomeScreen({ navController.navigate("Weather") }
+                        composable(route = welcome_screen_route) {
+                            WelcomeScreen({ navController.navigate(weather_screen_route) }
                             )
                         }
-                        composable(route = "Weather") {
+                        composable(route = weather_screen_route) {
                             val viewModel = hiltViewModel<WeatherViewModel>()
                             WeatherScreen({ navController.popBackStack() }, viewModel)
                         }

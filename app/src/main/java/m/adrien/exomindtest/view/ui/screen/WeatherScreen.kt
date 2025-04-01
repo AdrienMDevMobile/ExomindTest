@@ -25,8 +25,6 @@ fun WeatherScreen(
     val loadingMessage by viewModel.loadingMessage.observeAsState(null)
     val weatherState by viewModel.weatherListState.observeAsState(emptyList())
 
-
-
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -57,6 +55,6 @@ fun WeatherScreen(
         )
 
     }
-
-
 }
+
+val weather_screen_route = "weather_screen_route"

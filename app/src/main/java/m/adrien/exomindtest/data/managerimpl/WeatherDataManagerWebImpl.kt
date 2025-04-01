@@ -8,9 +8,8 @@ import m.adrien.exomindtest.domain.model.WeatherResponse
 import javax.inject.Inject
 
 class WeatherDataManagerWebImpl @Inject constructor(
-    val weatherWebDataSource: WeatherWebDataSource
+    private val weatherWebDataSource: WeatherWebDataSource
 ): WeatherDataManager {
-    //exemple : Result<WeatherResponse>
     override suspend fun getWeather(location: WeatherLocation): Result<WeatherResponse> {
 
         return weatherWebDataSource.callWeatherWeb(location.toString()).map { success ->

@@ -35,24 +35,23 @@ fun LoadingBar(
     loadingFinishedListener: ((Float) -> Unit)?,
     finishAnimationFinishedListener: ((Float) -> Unit)?,
     modifier: Modifier = Modifier,
-    //TODO ne pas utiliser des couleurs en brute
+    //TODO ne pas utiliser des couleurs en brute. Utiliser le theme.
     colorLoading: Color = Color.Red,
     colorFinished: Color = Color(0xFF009900),
 ) {
     Column(
         modifier = modifier
     ) {
-        //Put here loading text
-        Box(modifier = modifier
-            .fillMaxWidth()
-            //Ne pas mettre la couleur en dur
-            .border(BorderStroke(5.dp, Color.Black))
-            .padding(5.dp)
-            .height(50.dp)) {
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                //TODO Ne pas mettre la couleur en dur
+                .border(BorderStroke(5.dp, Color.Black))
+                .padding(5.dp)
+                .height(50.dp)
+        ) {
             when (state) {
                 is LoadingBarUiState.Loading -> {
-                    //TODO le message doit utiliser le catalogue de traduction
-
                     var progress by remember { mutableFloatStateOf(0f) }
                     val animatedProgress = animateFloatAsState(
                         targetValue = progress,
