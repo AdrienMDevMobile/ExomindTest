@@ -54,8 +54,5 @@ fun WeatherBottom(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-
-
-
     }
 }

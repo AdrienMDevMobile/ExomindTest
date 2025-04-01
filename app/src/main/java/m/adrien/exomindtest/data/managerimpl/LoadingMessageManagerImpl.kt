@@ -13,10 +13,10 @@ class LoadingMessageManagerImpl @Inject constructor() : LoadingMessageManager {
         while (true) {
             emit(
                 when (messageId) {
-                    0 -> LoadingMessage.downloading
-                    1 -> LoadingMessage.almost_finished
-                    2 -> LoadingMessage.only_seconds
-                    else -> LoadingMessage.only_seconds
+                    0 -> LoadingMessage.Downloading
+                    1 -> LoadingMessage.AlmostFinished
+                    2 -> LoadingMessage.OnlySeconds
+                    else -> LoadingMessage.OnlySeconds
                 }
             )
             if (messageId == 2) {
