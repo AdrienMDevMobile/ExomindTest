@@ -28,4 +28,4 @@ fun WelcomeScreen(
 
 }
 
-val welcome_screen_route = "welcome_screen_route"
+const val welcome_screen_route = "welcome_screen_route"

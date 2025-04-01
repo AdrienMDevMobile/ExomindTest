@@ -13,6 +13,7 @@ import m.adrien.exomindtest.domain.datamanager.WeatherLocationList
 import m.adrien.exomindtest.view.ui.event.LoadingEvent
 import m.adrien.exomindtest.view.ui.loadingBar.LoadingBarUiState
 import m.adrien.exomindtest.domain.model.LoadingMessage
+import m.adrien.exomindtest.domain.model.WeatherResponse
 import m.adrien.exomindtest.view.ui.converter.toDrawable
 import m.adrien.exomindtest.view.ui.uiState.WeatherInfoUiState
 import javax.inject.Inject
@@ -42,7 +43,7 @@ class WeatherViewModel @Inject constructor(
         when (event) {
             LoadingEvent.OnLoadingClick -> onLoadingClick()
             is LoadingEvent.OnLoadingAnimationFinished -> onLoadingAnimationFinished(event.value)
-            LoadingEvent.OnFinishAnimationFinished -> onFinishAnimationFinished()
+            LoadingEvent.OnLoadingCompletedAnimationFinished -> onLoadingCompletedAnimationFinished()
         }
     }
 
@@ -52,11 +53,7 @@ class WeatherViewModel @Inject constructor(
 
             _loadingState.value = LoadingBarUiState.Loading(0.0f)
 
-            val loadingMessageFlow = viewModelScope.launch {
-                waitingMessageManager.getLoadingMessage().collect { newLoadingMessage ->
-                    _loadingMessage.value = newLoadingMessage
-                }
-            }
+            val loadingMessageFlow = getLoadingMessageFlow()
 
             callWeathers()
 
@@ -65,30 +62,48 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    private suspend fun callWeathers(){
+    private fun getLoadingMessageFlow() = viewModelScope.launch {
+        waitingMessageManager.getLoadingMessage().collect { newLoadingMessage ->
+            _loadingMessage.value = newLoadingMessage
+        }
+    }
+
+    private suspend fun callWeathers() {
         //TODO plutôt que ce soit le viewmodel qui boucle les localisations,
         // une autre option il faut plutôt que cela soit fait par le Datamanager.
         //Au retour du dernier message du data manager, le viewmodel éteindra tous les process
         var locationsCount = 0
         for (location in weatherLocations) {
 
-            weatherDataManager.getWeather(location).onSuccess { weathers ->
-                //TODO : afin de minimiser les rafraichissement, il faut rentrer les deux météos en même temps
-                // pour cela Creer une sous liste et l'ajotuer d'un coup
-                for(weather in weathers.weathers){
-                    _weatherListState.value = _weatherListState.value?.plus(WeatherInfoUiState(weathers.location, weathers.temperature, weather.toDrawable()))
+            weatherDataManager.getWeather(location)
+                .onSuccess {
+                    addWeatherResponseIntoList(it)
+                }.onFailure {
+                    //TODO dans un vrai projet
                 }
-
-            }.onFailure {
-                //TODO dans un vrai projet
-            }
 
             locationsCount++
             _loadingState.value = LoadingBarUiState.Loading(
                 locationsCount.toFloat() / weatherLocations.size
             )
             //TODO Le dernier delay fait bizzare, mais cela est dans l'énoncé
+            // (la bar doit être chargée en 60 seconde, le dernier appel est fait au bout de 50 secondes)
+            // dans ces situations, challenger la demande initiale
             delay(10000)
+        }
+    }
+
+    private fun addWeatherResponseIntoList(weathers: WeatherResponse){
+        //TODO : afin de minimiser les rafraichissement, il faut rentrer les deux météos en même temps
+        // pour cela Creer une sous liste et l'ajotuer d'un coup
+        for (weather in weathers.weathers) {
+            _weatherListState.value = _weatherListState.value?.plus(
+                WeatherInfoUiState(
+                    weathers.location,
+                    weathers.temperature,
+                    weather.toDrawable()
+                )
+            )
         }
     }
 
@@ -98,7 +113,7 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    private fun onFinishAnimationFinished(){
+    private fun onLoadingCompletedAnimationFinished() {
         _loadingState.value = LoadingBarUiState.WaitRestart
     }
 }

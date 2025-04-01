@@ -46,7 +46,7 @@ fun WeatherScreen(
             },
             finishAnimationFinishedListener = { _ ->
                 viewModel.onEvent(
-                    LoadingEvent.OnFinishAnimationFinished
+                    LoadingEvent.OnLoadingCompletedAnimationFinished
                 )
             },
             loadingState = loadingState,
@@ -57,4 +57,4 @@ fun WeatherScreen(
     }
 }
 
-val weather_screen_route = "weather_screen_route"
+const val weather_screen_route = "weather_screen_route"
