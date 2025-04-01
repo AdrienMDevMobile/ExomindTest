@@ -19,8 +19,6 @@ import m.adrien.exomindtest.view.ui.element.WeatherBottom
 fun WeatherScreen(
     onBackClick: () -> Unit, viewModel: WeatherViewModel
 ) {
-    //utiliser hilt pour injecter le viewmodel
-    //https://stackoverflow.com/questions/76051175/how-to-correctly-create-viewmodel-in-compose
     val loadingState by viewModel.loadingState.observeAsState(LoadingBarUiState.Waiting)
     val loadingMessage by viewModel.loadingMessage.observeAsState(null)
     val weatherState by viewModel.weatherListState.observeAsState(emptyList())
@@ -30,9 +28,9 @@ fun WeatherScreen(
     ) {
         WeatherTopBar(onBackClick)
 
-
         WeatherTable(weatherState, modifier = Modifier.fillMaxWidth())
 
+        //Le spacer push le composant suivant tout en bas de l'écran
         Spacer(modifier = Modifier.weight(1f))
 
         WeatherBottom(
@@ -53,7 +51,6 @@ fun WeatherScreen(
             loadingMessage = loadingMessage,
             modifier = Modifier.fillMaxWidth()
         )
-
     }
 }
 

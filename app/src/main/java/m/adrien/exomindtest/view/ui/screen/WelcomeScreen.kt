@@ -25,7 +25,6 @@ fun WelcomeScreen(
             )
         }
     }
-
 }
 
 const val welcome_screen_route = "welcome_screen_route"
